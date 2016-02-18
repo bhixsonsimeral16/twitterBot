@@ -2,12 +2,22 @@ from heapq import *
 
 priority = []
 
-def addToQueue(value, key):
-    heappush(priority, (value, key))
+##class Element:
+##    def __init__(self, key, value):
+##        self.key = key
+##        self.value = value
+##
+##    def __eq__(self, other):
+##        return self.key == other.key
 
-addToQueue(1, 'forward')
-addToQueue(6, 'backward')
-addToQueue(3, 'turnRight')
-addToQueue(10, 'turnLeft')
+heappush (priority,(1, 'forward'))
+heappush (priority,(6, 'backward'))
+heappush (priority,(3, 'turnRight'))
+heappush (priority,(10, 'turnLeft'))
 
-print (nlargest(1, priority))
+print ('forward' in zip(*priority))
+
+print (nlargest(4, priority))
+
+while priority:
+    print (heappop(priority))
