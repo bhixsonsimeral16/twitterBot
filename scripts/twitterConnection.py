@@ -27,4 +27,4 @@ if __name__ == '__main__':
 
     stream = tweepy.Stream(auth, l)
     #stream.filter(track=['@turtlebot'])
-    stream.filter(track=['basketball'])
+    stream.filter(track=['@turtlebot'])
