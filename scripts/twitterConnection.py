@@ -13,7 +13,9 @@ class StdOutListener(tweepy.StreamListener):
         decoded = json.loads(data)
 
         # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
-        print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
+        #print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
+        if ("forward" or "backward" or "left" or "right") in ('%s' % (decoded['text'].encode('ascii', 'ignore'))).lower():
+            print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
         print ''
         return True
 
