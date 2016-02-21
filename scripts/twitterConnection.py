@@ -6,6 +6,8 @@ consumer_secret = "5CwZpFz9gzeOLzOX08Byp1fxweoGJ3NuwUT6E0DwPN5l2dI3oX"
 access_token = "700398196724400129-wZXwo1uL7sERuxa4e3LIxVQW6o3kps2"
 access_token_secret = "kc8Dm2oYE511qIGU4Btg1Szn37zdE9H9QhyTimCh6ULgW"
 
+dictionary = ["forward", "backward", "up", "down"]
+
 # This is the listener, resposible for receiving data
 class StdOutListener(tweepy.StreamListener):
     def on_data(self, data):
@@ -13,8 +15,10 @@ class StdOutListener(tweepy.StreamListener):
         decoded = json.loads(data)
 
         # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
-        print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
-        print ''
+        #print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
+        for data in dictionary:
+            if (data) in ('{0}'.format(decoded['text'].encode('ascii', 'ignore'))).lower():
+                print '@{0}: {1}'.format(decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
         return True
 
     def on_error(self, status):
