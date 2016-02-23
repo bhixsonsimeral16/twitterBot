@@ -1,5 +1,7 @@
 import tweepy
 import json
+from listTest import *
+from heapq import *
 
 consumer_key = "E6uJ66Idggzd2ztGxyHhyzs3q"
 consumer_secret = "5CwZpFz9gzeOLzOX08Byp1fxweoGJ3NuwUT6E0DwPN5l2dI3oX"
@@ -9,9 +11,17 @@ access_token_secret = "kc8Dm2oYE511qIGU4Btg1Szn37zdE9H9QhyTimCh6ULgW"
 dictionary = [" forward ", " backward ", " left ", " right "]
 handle = "@turtlebot"
 
+priority = []
+
+for (data) in dictionary:
+    data = data.strip()
+    heappush (priority,[0, data])
+
+
 # This is the listener, resposible for receiving data
 class StdOutListener(tweepy.StreamListener):
     def on_data(self, data):
+        global priority
         # Twitter returns data in JSON format - we need to decode it first
         tweet = json.loads(data)
 
@@ -20,8 +30,10 @@ class StdOutListener(tweepy.StreamListener):
         for data in dictionary:
             if (data) in ('{0}'.format(tweet['text'].encode('ascii', 'ignore'))).lower():
                 print '@{0}: {1}'.format(tweet['user']['screen_name'], tweet['text'].encode('ascii', 'ignore'))
-                print data
-                return data
+                data = data.strip()
+                priority = pulledKeyword(priority, data)
+                print (nlargest(len(priority), priority))
+                return priority
         return True
 
     def on_error(self, status):
