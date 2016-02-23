@@ -12,6 +12,7 @@ dictionary = [" forward ", " backward ", " left ", " right "]
 handle = "@turtlebot"
 
 priority = []
+counter = 0
 
 for (data) in dictionary:
     data = data.strip()
@@ -33,7 +34,9 @@ class StdOutListener(tweepy.StreamListener):
                 data = data.strip()
                 priority = pulledKeyword(priority, data)
                 print (nlargest(len(priority), priority))
-                return priority
+                counter += 1
+                print counter
+                return priority        
         return True
 
     def on_error(self, status):
