@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "twitterBot")
+set(twitterBot_MAINTAINER "orgho <orgho@todo.todo>")
+set(twitterBot_DEPRECATED "")
+set(twitterBot_VERSION "0.0.0")
+set(twitterBot_BUILD_DEPENDS "roscpp" "rospy" "std_msgs")
+set(twitterBot_RUN_DEPENDS "roscpp" "rospy" "std_msgs")
+set(twitterBot_BUILDTOOL_DEPENDS "catkin")
