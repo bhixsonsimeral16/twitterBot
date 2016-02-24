@@ -1,5 +1,6 @@
 import tweepy
 import json
+import string
 from listTest import *
 from heapq import *
 
@@ -8,36 +9,33 @@ consumer_secret = "5CwZpFz9gzeOLzOX08Byp1fxweoGJ3NuwUT6E0DwPN5l2dI3oX"
 access_token = "700398196724400129-wZXwo1uL7sERuxa4e3LIxVQW6o3kps2"
 access_token_secret = "kc8Dm2oYE511qIGU4Btg1Szn37zdE9H9QhyTimCh6ULgW"
 
-dictionary = ["forward", "backward", "left", "right"]
+dictionary = [" forward ", " backward ", " left ", " right "]
 handle = "@turtlebot"
 
-priority = []
-counter = 0
-
-for (data) in dictionary:
-    data = data.strip()
-    heappush (priority,[0, data])
-
+#list of directions
+directionList = []
 
 # This is the listener, resposible for receiving data
 class StdOutListener(tweepy.StreamListener):
     def on_data(self, data):
-        global priority
-        global counter
+        global directionList
         # Twitter returns data in JSON format - we need to decode it first
         tweet = json.loads(data)
+        tweetText = ('{0}'.format(tweet['text'].encode('ascii', 'ignore'))).lower()
+        tweetText = tweetText.translate(string.maketrans("",""), string.punctuation)
+        tweetText = " " + tweetText + " "
+
+        print tweetText
 
         # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
         #print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
         for data in dictionary:
-            if (data) in ('{0}'.format(tweet['text'].encode('ascii', 'ignore'))).lower():
+            if (data) in tweetText:
                 print '@{0}: {1}'.format(tweet['user']['screen_name'], tweet['text'].encode('ascii', 'ignore'))
                 data = data.strip()
-                priority = pulledKeyword(priority, data)
-                print (nlargest(len(priority), priority))
-                counter += 1
-                print counter
-                return priority
+                directionList.append(data)
+                print (directionList)
+                return directionList
         return True
 
     def on_error(self, status):
