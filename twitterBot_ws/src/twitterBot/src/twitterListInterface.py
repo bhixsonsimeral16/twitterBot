@@ -38,7 +38,7 @@ class StdOutListener(tweepy.StreamListener):
 
     def on_error(self, status):
         rospy.loginfo ("Error Number:" + str(status))
-        if status_code == 420:
+        if status == 420:
             return False
 
 #API Keys
@@ -59,8 +59,6 @@ if __name__ == '__main__':
         rospy.init_node('twitterListInterface')
 
         # Loop at 10Hz, publishing movement commands until we shut down.
-    	rate = rospy.Rate(10)
-    	while not rospy.is_shutdown():
 
             # A publisher for the move data
             pub = rospy.Publisher("twitterDirection", String, queue_size=10)
@@ -73,7 +71,10 @@ if __name__ == '__main__':
 
             stream.filter(track=[handle], async=True)
 
-	    rate.sleep()
+            # rate = rospy.Rate(10)
+        	# while not rospy.is_shutdown():
+            #
+    	    # rate.sleep()
 
     except rospy.ROSInterruptException:
         pass
