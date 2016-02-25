@@ -11,16 +11,16 @@ import string
 from std_msgs.msg import String
 from std_msgs.msg import Time
 
-
-
 def keyword_changer(event):
     global command
+    global directionList
     if len(directionList > 0):
         command = directionList.pop(0)
         rospy.loginfo (command)
     return True
 
 def callback(data):
+    global directionList
     directionList.append(data)
     rospy.loginfo(directionList)
     return True
