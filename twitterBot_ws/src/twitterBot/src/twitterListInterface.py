@@ -14,21 +14,6 @@ from heapq import *
 from std_msgs.msg import String
 from std_msgs.msg import Time
 
-def pulledKeyword(heap, keyword):
-    if (len(heap) != 0 and (keyword in (zip(*heap)[1]))):
-        #print (heap[zip(*heap)[1].index(keyword)][0])
-        heap[zip(*heap)[1].index(keyword)][0] += 1
-        #print (heap[zip(*heap)[1].index(keyword)][0])
-        # if ((nlargest(1, heap)[1] == keyword) & (heap[zip(*heap)[1].index(keyword)][0]) > (10 + heap[zip(*heap)[1].index(prevGoal)][0])):
-        #     ## make a call to change the goal
-        #     ## this may be difficult...
-        #     ## return is for setting the currentGoal
-        #     return (nlargest(1, heap)[1])
-    else:
-        lst = [1, keyword]
-        heappush (heap, lst)
-    return heap
-
 # This is the listener, resposible for receiving data
 class StdOutListener(tweepy.StreamListener):
     def on_data(self, data):
@@ -47,9 +32,8 @@ class StdOutListener(tweepy.StreamListener):
             if (data) in tweetText:
                 rospy.loginfo ('@{0}: {1}'.format(tweet['user']['screen_name'], tweet['text'].encode('ascii', 'ignore')))
                 data = data.strip()
-                directionList.append(data)
-                rospy.loginfo (directionList)
-                return directionList
+                pub.publish(data)
+                return data
         return True
 
     def on_error(self, status):
@@ -74,34 +58,25 @@ access_token_secret = "kc8Dm2oYE511qIGU4Btg1Szn37zdE9H9QhyTimCh6ULgW"
 dictionary = [" forward ", " backward ", " left ", " right "]
 handle = "@turtlebot"
 
-#list of directions
-directionList = []
 command = "test"
 
 if __name__ == '__main__':
     try:
-        rospy.init_node('twitterListInterface')
-        rospy.loginfo("first things first")
-        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-        auth.set_access_token(access_token, access_token_secret)
+        # Loop at 10Hz, publishing movement commands until we shut down.
+    	rate = rospy.Rate(10)
+    	while not rospy.is_shutdown():
 
-        stream = tweepy.Stream(auth, StdOutListener())
+            # A publisher for the move data
+            pub = rospy.Publisher('nextMove', String, queue_size=10)
 
-        stream.filter(track=[handle], async=True)
-        rospy.loginfo("second things ")
+            rospy.init_node('twitterListInterface')
+            auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+            auth.set_access_token(access_token, access_token_secret)
 
-        # A publisher for the move data
-        pub = rospy.Publisher('nextMove', String, queue_size=10)
-        rospy.loginfo("listen. something..... please.....")
+            stream = tweepy.Stream(auth, StdOutListener())
 
-	# Loop at 10Hz, publishing movement commands until we shut down.
-	command = "test2"
-	rate = rospy.Rate(10)
-	while not rospy.is_shutdown():
-	    #rospy.Timer(rospy.Duration(1), keyword_changer)
-	    rospy.loginfo(command)
-            rospy.loginfo("listen. better print ths you little piece of shit")
-            pub.publish(command)
+            stream.filter(track=[handle], async=True)
+
 	    rate.sleep()
 
     except rospy.ROSInterruptException:
