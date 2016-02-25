@@ -39,13 +39,13 @@ class StdOutListener(tweepy.StreamListener):
         tweetText = tweetText.translate(string.maketrans("",""), string.punctuation)
         tweetText = " " + tweetText + " "
 
-        rospy.loginfo tweetText
+        rospy.loginfo(tweetText)
 
         # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
         #print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
         for data in dictionary:
             if (data) in tweetText:
-                rospy.loginfo '@{0}: {1}'.format(tweet['user']['screen_name'], tweet['text'].encode('ascii', 'ignore'))
+                rospy.loginfo ('@{0}: {1}'.format(tweet['user']['screen_name'], tweet['text'].encode('ascii', 'ignore')))
                 data = data.strip()
                 directionList.append(data)
                 rospy.loginfo (directionList)
@@ -53,7 +53,7 @@ class StdOutListener(tweepy.StreamListener):
         return True
 
     def on_error(self, status):
-        rospy.loginfo status
+        rospy.loginfo (status)
 
 def keyword_changer(event):
     global command
