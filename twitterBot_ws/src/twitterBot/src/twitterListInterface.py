@@ -59,6 +59,7 @@ def keyword_changer(event):
     global command
     if len(directionList > 0):
         command = directionList.pop(0)
+        rospy.loginfo (command)
     return True
 
 #API Keys
