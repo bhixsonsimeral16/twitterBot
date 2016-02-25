@@ -53,7 +53,7 @@ class StdOutListener(tweepy.StreamListener):
         return True
 
     def on_error(self, status):
-        rospy.loginfo (status)
+        rospy.loginfo ("Error Number:" + str(status))
 
 def keyword_changer(event):
     global command
@@ -74,24 +74,33 @@ handle = "@turtlebot"
 
 #list of directions
 directionList = []
-command = ""
+command = "test"
 
 if __name__ == '__main__':
-    rospy.init_node('twitterListInterface')
+    try:
+        rospy.init_node('twitterListInterface')
+        rospy.loginfo("first things first")
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_token, access_token_secret)
 
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
+        stream = tweepy.Stream(auth, StdOutListener())
 
-    stream = tweepy.Stream(auth, StdOutListener())
+        stream.filter(track=[handle])
+        rospy.loginfo("second things ")
 
-    stream.filter(track=[handle])
+        # A publisher for the move data
+        pub = rospy.Publisher('nextMove', String, queue_size=10)
+        rospy.loginfo("listen. something..... please.....")
 
-    # A publisher for the move data
-    pub = rospy.Publisher('nextMove', String)
+	# Loop at 10Hz, publishing movement commands until we shut down.
+	command = "test2"
+	rate = rospy.Rate(10)
+	while not rospy.is_shutdown():
+	    #rospy.Timer(rospy.Duration(1), keyword_changer)
+	    rospy.loginfo(command)
+            rospy.loginfo("listen. better print ths you little piece of shit")
+            pub.publish(command)
+	    rate.sleep()
 
-    # Loop at 10Hz, publishing movement commands until we shut down.
-    rate = rospy.Rate(10)
-    while not rospy.is_shutdown():
-        rospy.Timer(rospy.Duration(1), keyword_changer)
-        pub.publish(command)
-        rate.sleep()
+    except rospy.ROSInterruptException:
+        pass
