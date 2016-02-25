@@ -41,13 +41,6 @@ class StdOutListener(tweepy.StreamListener):
         if status_code == 420:
             return False
 
-def keyword_changer(event):
-    global command
-    if len(directionList > 0):
-        command = directionList.pop(0)
-        rospy.loginfo (command)
-    return True
-
 #API Keys
 consumer_key = "E6uJ66Idggzd2ztGxyHhyzs3q"
 consumer_secret = "5CwZpFz9gzeOLzOX08Byp1fxweoGJ3NuwUT6E0DwPN5l2dI3oX"
@@ -62,14 +55,17 @@ command = "test"
 
 if __name__ == '__main__':
     try:
+
+        rospy.init_node('twitterListInterface')
+
         # Loop at 10Hz, publishing movement commands until we shut down.
     	rate = rospy.Rate(10)
     	while not rospy.is_shutdown():
 
             # A publisher for the move data
-            pub = rospy.Publisher('twitterDirection', String, queue_size=10)
+            pub = rospy.Publisher("twitterDirection", String, queue_size=10)
 
-            rospy.init_node('twitterListInterface')
+
             auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
             auth.set_access_token(access_token, access_token_secret)
 
