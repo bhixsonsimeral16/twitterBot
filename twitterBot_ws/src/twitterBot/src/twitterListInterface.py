@@ -54,6 +54,8 @@ class StdOutListener(tweepy.StreamListener):
 
     def on_error(self, status):
         rospy.loginfo ("Error Number:" + str(status))
+        if status_code == 420:
+            return False
 
 def keyword_changer(event):
     global command
@@ -85,7 +87,7 @@ if __name__ == '__main__':
 
         stream = tweepy.Stream(auth, StdOutListener())
 
-        stream.filter(track=[handle])
+        stream.filter(track=[handle], async=True)
         rospy.loginfo("second things ")
 
         # A publisher for the move data
