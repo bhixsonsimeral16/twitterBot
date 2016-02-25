@@ -48,9 +48,9 @@ if __name__ == '__main__':
 
         rate = rospy.Rate(10)
     	while not rospy.is_shutdown():
-        sub = rospy.Subscriber("twitterDirection", String,callback)
-        rospy.Timer(rospy.Duration(2), keyword_changer)
-        pub.publish(command)
+            sub = rospy.Subscriber("twitterDirection", String,callback)
+            rospy.Timer(rospy.Duration(2), keyword_changer)
+            pub.publish(command)
 
 	    rate.sleep()
 

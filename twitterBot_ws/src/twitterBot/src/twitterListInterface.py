@@ -61,15 +61,15 @@ if __name__ == '__main__':
         # Loop at 10Hz, publishing movement commands until we shut down.
 
             # A publisher for the move data
-            pub = rospy.Publisher("twitterDirection", String, queue_size=10)
+        pub = rospy.Publisher("twitterDirection", String, queue_size=10)
 
 
-            auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-            auth.set_access_token(access_token, access_token_secret)
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_token, access_token_secret)
 
-            stream = tweepy.Stream(auth, StdOutListener())
+        stream = tweepy.Stream(auth, StdOutListener())
 
-            stream.filter(track=[handle], async=True)
+        stream.filter(track=[handle], async=True)
 
             # rate = rospy.Rate(10)
         	# while not rospy.is_shutdown():
