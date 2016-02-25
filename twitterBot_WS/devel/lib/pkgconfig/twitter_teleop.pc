@@ -1,0 +1,8 @@
+prefix=/home/orgho/Documents/twitterBot_WS/devel
+
+Name: twitter_teleop
+Description: Description of twitter_teleop
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/orgho/Documents/twitterBot_WS/devel/lib 
+Requires: 

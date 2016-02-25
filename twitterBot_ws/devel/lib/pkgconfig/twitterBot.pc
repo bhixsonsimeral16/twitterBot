@@ -1,8 +1,0 @@
-prefix=/home/orgho/Documents/twitterBot_ws/devel
-
-Name: twitterBot
-Description: Description of twitterBot
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/orgho/Documents/twitterBot_ws/devel/lib 
-Requires: 

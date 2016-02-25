@@ -1,0 +1,2 @@
+twitter_teleop
+-DCATKIN_DEVEL_PREFIX=/home/orgho/Documents/twitterBot_WS/devel -DCMAKE_INSTALL_PREFIX=/home/orgho/Documents/twitterBot_WS/install -G Unix Makefiles

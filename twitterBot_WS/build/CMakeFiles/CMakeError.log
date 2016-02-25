@@ -1,0 +1,53 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec502549394/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec502549394.dir/build.make CMakeFiles/cmTryCompileExec502549394.dir/build
+make[1]: Entering directory `/home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec502549394.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec502549394.dir/CheckSymbolExists.c.o   -c /home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTryCompileExec502549394
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec502549394.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec502549394.dir/CheckSymbolExists.c.o  -o cmTryCompileExec502549394 -rdynamic 
+CMakeFiles/cmTryCompileExec502549394.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+make[1]: Leaving directory `/home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec502549394] Error 1
+make: *** [cmTryCompileExec502549394/fast] Error 2
+
+File /home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec977020225/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec977020225.dir/build.make CMakeFiles/cmTryCompileExec977020225.dir/build
+make[1]: Entering directory `/home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec977020225.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTryCompileExec977020225.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec977020225
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec977020225.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTryCompileExec977020225.dir/CheckFunctionExists.c.o  -o cmTryCompileExec977020225 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: Leaving directory `/home/orgho/Documents/twitterBot_WS/build/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec977020225] Error 1
+make: *** [cmTryCompileExec977020225/fast] Error 2
+
+
