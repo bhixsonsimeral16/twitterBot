@@ -67,7 +67,7 @@ if __name__ == '__main__':
     	while not rospy.is_shutdown():
 
             # A publisher for the move data
-            pub = rospy.Publisher('nextMove', String, queue_size=10)
+            pub = rospy.Publisher('twitterDirection', String, queue_size=10)
 
             rospy.init_node('twitterListInterface')
             auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
