@@ -86,7 +86,7 @@ if __name__ == '__main__':
     stream.filter(track=[handle])
 
     # A publisher for the move data
-    pub = rospy.Publisher('teleop_directions', String)
+    pub = rospy.Publisher('nextMove', String)
 
     # Loop at 10Hz, publishing movement commands until we shut down.
     rate = rospy.Rate(10)
