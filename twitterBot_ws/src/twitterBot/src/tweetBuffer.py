@@ -14,7 +14,7 @@ from std_msgs.msg import Time
 def keyword_changer(event):
     global command
     global directionList
-    if len(directionList > 0):
+    if (len(directionList) > 0):
         command = directionList.pop(0)
         rospy.loginfo (command)
     return True
