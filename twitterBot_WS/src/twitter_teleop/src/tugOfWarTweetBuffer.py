@@ -7,30 +7,36 @@ import rospy
 #imports for twitter API
 import string
 
-#String, Time, and Int32
+#String, Time, and Float64
 from std_msgs.msg import String
-from std_msgs.msg import Int32
+from std_msgs.msg import Float64
 from std_msgs.msg import Time
 
 #for ration calculation
 import math
 
-def ratio_calc(event):
+def ratio_calc():
     global command
     global directionList
-    x = directionList[0][1]
-    y = directionList[1][1]
-    ratio = x/(x+y)
-    #turn the ratio into a position for the turtlebot to go to
-    command = (math.floor(ratio * 100) * 3) / 100
-    rospy.loginfo (command)
+    x = float(directionList[0][1])
+    y = float(directionList[1][1])
+    if(x != 0 or y != 0):
+        ratio = x/(x+y) 
+        rospy.loginfo("ratio is : {0}".format(ratio))
+        #turn the ratio into a position for the turtlebot to go to
+        command = (math.floor(ratio * 100) * 3) / 100
+        #rospy.loginfo("command is : {0}".format(command))
+        #rospy.loginfo (command)
+    rospy.loginfo("command is : {0}".format(command))
+    rospy.loginfo(directionList)
     return True
 
 def callback(data):
     global directionList
-    if(directionList[0][0] == data):
+    rospy.loginfo("I heard %s", data.data)
+    if(directionList[0][0] == data.data):
         directionList[0][1] += 1
-    elif(directionList[1][0] == data):
+    elif(directionList[1][0] == data.data):
         directionList[1][1] += 1
     rospy.loginfo(directionList)
     return True
@@ -45,13 +51,15 @@ access_token_secret = "kc8Dm2oYE511qIGU4Btg1Szn37zdE9H9QhyTimCh6ULgW"
 dictionary = ["iphone", "android"]
 handle = "@turtlebot"
 
-directionList=[]
-directionList=directionList.append([])
-directionList[0][0] = dictionary[0]
-directionList[1][0] = dictionary[1]
-directionList[0][1] = 0
-directionList[1][1] = 0
-command = "test"
+dict1 = [dictionary[0], 0]
+dict2 = [dictionary[1], 0]
+directionList = [dict1, dict2]
+#directionList=directionList.append([])
+#directionList[0][0] = "iphone"  #dictionary[0]
+#directionList[1][0] = "android" #dictionary[1]
+#directionList[0][1] = 0
+#directionList[1][1] = 0
+command = 1.5
 
 if __name__ == '__main__':
     try:
@@ -59,13 +67,13 @@ if __name__ == '__main__':
         rospy.init_node('tugTweetBuffer')
 
         # A publisher for the move data
-        pub = rospy.Publisher("tug", Int32, queue_size=10)
-
+        pub = rospy.Publisher("tug", Float64, queue_size=10)
+        sub = rospy.Subscriber("twitterTugDirection", String, callback)
         rate = rospy.Rate(10)
     	while not rospy.is_shutdown():
-            sub = rospy.Subscriber("twitterTugDirection", String, callback)
+            
             #rospy.Timer(rospy.Duration(2), ratio_calc)
-            ratio_calc
+            ratio_calc()
             pub.publish(command)
 
 	    rate.sleep()
